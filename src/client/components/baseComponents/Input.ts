@@ -5,6 +5,7 @@ import { customElement, property, query } from "lit/decorators.js";
 export class OInput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) inputId = "";
+  @property({ type: String }) value = "";
   @property({ type: String }) placeholder = "";
   @property({ type: Number }) maxlength = 24;
   @property({ type: String }) type = "text";
@@ -27,6 +28,7 @@ export class OInput extends LitElement {
           <input
             class="c-input"
             id="${this.inputId}"
+            value="${this.value}"
             type="${this.type}"
             placeholder="${this.placeholder}"
             maxlength="${this.maxlength}"
@@ -43,19 +45,37 @@ export class OInput extends LitElement {
     `;
   }
 
-  public get value(): string {
-    return this._input?.value || "";
-  }
-
   private handleBlur() {
-    this.dispatchEvent(new CustomEvent("input-blur", { detail: this.value }));
+    this.dispatchEvent(
+      new CustomEvent("blur", {
+        detail: this.value,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleChange() {
-    this.dispatchEvent(new CustomEvent("input-change", { detail: this.value }));
+  private handleChange(e: Event) {
+    const input = e.target as HTMLInputElement;
+    this.value = input.value;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: this.value,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleInput() {
-    this.dispatchEvent(new CustomEvent("input-update", { detail: this.value }));
+  private handleInput(e: Event) {
+    const input = e.target as HTMLInputElement;
+    this.value = input.value;
+    this.dispatchEvent(
+      new CustomEvent("asd", {
+        detail: this.value,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 }

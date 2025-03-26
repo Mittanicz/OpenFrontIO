@@ -1,0 +1,21 @@
+.c-select {
+}
+
+.c-select__display {
+  color: var(--fontColor);
+}
+
+.c-select__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.c-select__item {
+  margin: 0;
+}
+
+.c-select__input {
+  outline: none;
+  padding: 4px 8px;
+}

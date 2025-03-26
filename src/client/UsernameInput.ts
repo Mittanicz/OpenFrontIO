@@ -58,6 +58,7 @@ export class UsernameInput extends LitElement {
   private handleChange(e: Event) {
     const input = e.target as HTMLInputElement;
     this.username = input.value.trim();
+    console.log(this.username);
     const result = validateUsername(this.username);
     this._isValid = result.isValid;
     if (result.isValid) {

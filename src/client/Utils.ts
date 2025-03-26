@@ -91,6 +91,10 @@ export function translateText(
     }
   }
 
+  if (typeof text !== "string") {
+    return key;
+  }
+
   for (const [param, value] of Object.entries(params)) {
     text = text.replace(`{${param}}`, String(value));
   }
