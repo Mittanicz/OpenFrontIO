@@ -83,10 +83,9 @@ export class FlagInput extends LitElement {
           : "hidden"}"
         @click=${() => (this.showModal = false)}
       ></div>
-      <div class="flex relative">
+      <div>
         <button
           @click=${() => (this.showModal = !this.showModal)}
-          class="border p-[4px] rounded-lg flex cursor-pointer border-black/30 dark:border-gray-300/60 bg-white/70 dark:bg-[rgba(55,65,81,0.7)]"
           title="Pick a flag!"
         >
           <img class="size-[48px]" src="/flags/${this.flag || "xx"}.svg" />

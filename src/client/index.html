@@ -208,7 +208,17 @@
     <main class="flex justify-center items-center flex-grow">
       <div class="container">
         <div class="container__row">
-          <flag-input class="w-[20%] md:w-[15%]"></flag-input>
+          <o-input
+            label="Username"
+            inputId="username"
+            placeholder="Enter your username"
+            maxlength="20"
+            type="text"
+          >
+            <span slot="pre">
+              <flag-input></flag-input>
+            </span>
+          </o-input>
           <username-input class="w-full"></username-input>
         </div>
         <div>

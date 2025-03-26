@@ -1,0 +1,51 @@
+.c-formElement {
+  display: flex;
+}
+
+o-input {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  border: 1px solid transparent;
+  align-items: center;
+  position: relative;
+  padding: 0px 10px;
+  gap: 5px 10px;
+  font-size: 16px;
+  border-radius: var(--borderRadius--md);
+
+  &:before {
+    content: "";
+    position: absolute;
+    border-radius: var(--borderRadius--md);
+    background: #fff;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+  }
+
+  & span[slot="pre"] {
+    order: 1;
+    color: red;
+  }
+  & span[slot="post"] {
+    order: 3;
+    color: red;
+  }
+
+  & .c-formElement {
+    order: 2;
+  }
+  &[errormessage]:not([errormessage=""]) {
+    &:before {
+      border: 1px solid var(--errorColor);
+    }
+
+    .c-message {
+      color: var(--errorColor);
+      grid-column: 1 / 4;
+      order: 4;
+    }
+  }
+}
