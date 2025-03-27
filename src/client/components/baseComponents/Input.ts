@@ -40,7 +40,7 @@ export class OInput extends LitElement {
         <slot name="post"></slot>
       </div>
       ${this.errorMessage
-        ? html`<div class="c-message">${this.errorMessage}</div>`
+        ? html` <div class="c-message">${this.errorMessage}</div>`
         : ""}
     `;
   }
@@ -49,8 +49,6 @@ export class OInput extends LitElement {
     this.dispatchEvent(
       new CustomEvent("blur", {
         detail: this.value,
-        bubbles: true,
-        composed: true,
       }),
     );
   }
@@ -61,8 +59,6 @@ export class OInput extends LitElement {
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: this.value,
-        bubbles: true,
-        composed: true,
       }),
     );
   }
@@ -71,10 +67,8 @@ export class OInput extends LitElement {
     const input = e.target as HTMLInputElement;
     this.value = input.value;
     this.dispatchEvent(
-      new CustomEvent("asd", {
+      new CustomEvent("input", {
         detail: this.value,
-        bubbles: true,
-        composed: true,
       }),
     );
   }

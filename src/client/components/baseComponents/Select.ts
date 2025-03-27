@@ -70,42 +70,46 @@ export class OSelect extends LitElement {
             ? html`<img
                 src="${this.selectedItem.image}"
                 alt="${this.selectedItem.label} flag"
+                class="w-[32px] h-[32px] object-contain"
               />`
-            : ""}
-          <span>${this.selectedItem?.label ?? "Select"}</span>
+            : html`<span>${this.selectedItem?.label ?? "Select"}</span>`}
         </div>
 
         ${this.isOpen
           ? html`
-              <input
-                class="c-select__input"
-                type="text"
-                placeholder="Search..."
-                .value=${this.filter}
-                @input=${(e: InputEvent) => {
-                  this.filter = (e.target as HTMLInputElement).value;
-                }}
-                @click=${(e: Event) => e.stopPropagation()}
-              />
-              <ul class="c-select__list">
-                ${this.items}
-                ${this.filteredItems.map(
-                  (item) => html`
-                    <div
-                      class="c-select__item"
-                      @click=${(e: Event) => {
-                        e.stopPropagation();
-                        this.selectItem(item);
-                      }}
-                    >
-                      ${item.image
-                        ? html`<img src="${item.image}" alt="${item.label}" />`
-                        : ""}
-                      <span>${item.label}</span>
-                    </div>
-                  `,
-                )}
-              </ul>
+              <div class="c-select__listWrapper">
+                <input
+                  class="c-select__input"
+                  type="text"
+                  placeholder="Search..."
+                  .value=${this.filter}
+                  @input=${(e: InputEvent) => {
+                    this.filter = (e.target as HTMLInputElement).value;
+                  }}
+                  @click=${(e: Event) => e.stopPropagation()}
+                />
+                <ul class="c-select__list">
+                  ${this.filteredItems.map(
+                    (item) => html`
+                      <div
+                        class="c-select__item"
+                        @click=${(e: Event) => {
+                          e.stopPropagation();
+                          this.selectItem(item);
+                        }}
+                      >
+                        ${item.image
+                          ? html`<img
+                              src="${item.image}"
+                              alt="${item.label}"
+                            />`
+                          : ""}
+                        <span>${item.label}</span>
+                      </div>
+                    `,
+                  )}
+                </ul>
+              </div>
             `
           : ""}
       </div>

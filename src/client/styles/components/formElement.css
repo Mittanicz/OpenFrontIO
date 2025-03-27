@@ -2,9 +2,14 @@
   display: flex;
 }
 
+.c-formElement__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 o-input {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 50px 1fr 50px;
   border: 1px solid transparent;
   align-items: center;
   position: relative;
@@ -27,11 +32,9 @@ o-input {
 
   & span[slot="pre"] {
     order: 1;
-    color: red;
   }
   & span[slot="post"] {
     order: 3;
-    color: red;
   }
 
   & .c-formElement {

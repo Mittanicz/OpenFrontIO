@@ -1,18 +1,37 @@
 .c-select {
+  position: relative;
 }
 
 .c-select__display {
   color: var(--fontColor);
 }
 
+.c-select__listWrapper {
+  position: absolute;
+  max-height: 60dvh;
+  left: -6px;
+  overflow: scroll;
+  background: var(--boxBackgroundColor);
+  backdrop-filter: blur(var(--blur-md));
+  top: 40px;
+  z-index: 1000;
+}
+
 .c-select__list {
   list-style: none;
-  padding: 0;
+  padding: 5px;
   margin: 0;
 }
 
 .c-select__item {
   margin: 0;
+  display: flex;
+  color: var(--fontColorLight);
+  gap: 10px;
+
+  img {
+    max-width: 35px;
+  }
 }
 
 .c-select__input {

@@ -357,31 +357,6 @@
       });
     </script>
     <script>
-      const countryItems = [
-        {
-          label: "United States",
-          value: "US",
-          image: "https://flagcdn.com/us.svg",
-        },
-        {
-          label: "Germany",
-          value: "DE",
-          image: "https://flagcdn.com/de.svg",
-        },
-        {
-          label: "Japan",
-          value: "JP",
-          image: "https://flagcdn.com/jp.svg",
-        },
-        {
-          label: "Czech Republic",
-          value: "CZ",
-          image: "https://flagcdn.com/cz.svg",
-        },
-      ];
-      const select = document.getElementById("countrySelect");
-      select.items = countryItems;
-
       document.addEventListener("DOMContentLoaded", async function () {
         const locale = new Intl.Locale(navigator.language);
         const defaultLang = locale.language;

@@ -7,20 +7,23 @@ import {
 } from "../core/validations/username";
 import { UserSettings } from "../core/game/UserSettings";
 import { translateText } from "../client/Utils";
+import Countries from "./data/countries.json";
 
 const usernameKey: string = "username";
+const flagKey: string = "flag";
 
 @customElement("username-input")
 export class UsernameInput extends LitElement {
   @state() private username: string = "";
+  @state() private flag: string = "";
+  @state() private search: string = "";
+  @state() private showModal: boolean = false;
+
   @property({ type: String }) validationError: string = "";
   private _isValid: boolean = true;
   private userSettings: UserSettings = new UserSettings();
 
-  // Remove static styles since we're using Tailwind
-
   createRenderRoot() {
-    // Disable shadow DOM to allow Tailwind classes to work
     return this;
   }
 
@@ -31,34 +34,54 @@ export class UsernameInput extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.username = this.getStoredUsername();
+    this.flag = this.getStoredFlag();
     this.dispatchUsernameEvent();
   }
 
   render() {
     return html`
-      <input
-        type="text"
-        .value=${this.username}
-        @input=${this.handleChange}
-        @change=${this.handleChange}
+      <o-input
+        label="Username"
+        inputId="username"
         placeholder="${translateText("username.enter_username")}"
         maxlength="${MAX_USERNAME_LENGTH}"
-        class="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm text-2xl text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-300/60 dark:bg-gray-700 dark:text-white"
-      />
-      ${this.validationError
-        ? html`<div
-            class="mt-2 px-3 py-1 text-lg border rounded bg-white text-red-600 border-red-600 dark:bg-gray-700 dark:text-red-300 dark:border-red-300"
-          >
-            ${this.validationError}
-          </div>`
-        : null}
+        errorMessage="${this.validationError}"
+        @input="${this.handleChange}"
+        type="text"
+      >
+        <span slot="pre">
+          <o-select
+            .items=${this.getCountryItems()}
+            @value-selected="${this.handleFlagSelected}"
+          ></o-select>
+        </span>
+      </o-input>
     `;
+  }
+
+  private getCountryItems() {
+    return Countries.map((country) => ({
+      label: country.name,
+      value: country.code,
+      image: `/flags/${country.code}.svg`,
+    }));
+  }
+  private handleFlagSelected(e: CustomEvent) {
+    const code = e.detail;
+    this.flag = code === "xx" ? "" : code;
+    this.storeFlag(this.flag);
+    this.dispatchEvent(
+      new CustomEvent("flag-change", {
+        detail: { flag: this.flag },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleChange(e: Event) {
     const input = e.target as HTMLInputElement;
     this.username = input.value.trim();
-    console.log(this.username);
     const result = validateUsername(this.username);
     this._isValid = result.isValid;
     if (result.isValid) {
@@ -71,10 +94,7 @@ export class UsernameInput extends LitElement {
 
   private getStoredUsername(): string {
     const storedUsername = localStorage.getItem(usernameKey);
-    if (storedUsername) {
-      return storedUsername;
-    }
-    return this.generateNewUsername();
+    return storedUsername || this.generateNewUsername();
   }
 
   private storeUsername(username: string) {
@@ -109,5 +129,30 @@ export class UsernameInput extends LitElement {
 
   public isValid(): boolean {
     return this._isValid;
+  }
+
+  private getStoredFlag(): string {
+    return localStorage.getItem(flagKey) || "";
+  }
+
+  private setFlag(code: string) {
+    this.flag = code === "xx" ? "" : code;
+    this.showModal = false;
+    this.storeFlag(this.flag);
+    this.dispatchEvent(
+      new CustomEvent("flag-change", {
+        detail: { flag: this.flag },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private storeFlag(code: string) {
+    if (code) {
+      localStorage.setItem(flagKey, code);
+    } else {
+      localStorage.removeItem(flagKey);
+    }
   }
 }
