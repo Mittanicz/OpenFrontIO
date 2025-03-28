@@ -18,6 +18,7 @@
   border-radius: 8px;
   min-width: 340px;
   max-width: 860px;
+  min-height: 400px;
 }
 
 .c-modal__header {

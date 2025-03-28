@@ -258,19 +258,8 @@
           block
           secondary
         ></o-button>
-        <div class="container__row">
-          <select
-            id="lang-selector"
-            class="text-center appearance-none w-full bg-blue-100 hover:bg-blue-200 text-blue-900 p-3 sm:p-4 lg:p-5 font-medium text-sm sm:text-base lg:text-lg rounded-md border-none cursor-pointer transition-colors duration-300"
-          >
-            <option value="en">English</option>
-            <option value="bg">Български</option>
-            <option value="ja">日本語</option>
-            <option value="fr">Français</option>
-            <option value="nl">Nederlands</option>
-            <option value="de">Deutsch</option>
-          </select>
-        </div>
+        <o-button id="settings-button" title="Settings" block secondary>
+        </o-button>
       </div>
     </main>
 
@@ -348,6 +337,7 @@
     <player-panel></player-panel>
     <help-modal></help-modal>
     <dark-mode-button></dark-mode-button>
+    <settings-modal></settings-modal>
     <!-- Scripts -->
     <script>
       // Remove preload class after everything is loaded
@@ -390,6 +380,8 @@
             "help-modal",
             "username-input",
             "public-lobby",
+            "o-modal",
+            "o-button",
           ];
 
           document.title = translations.main?.title || document.title;
@@ -417,14 +409,20 @@
             }
           });
           components.forEach((tagName) => {
-            const el = document.querySelector(tagName);
-            if (el && typeof el.requestUpdate === "function") {
-              el.requestUpdate();
-            } else {
-              console.warn(
-                `requestUpdate() not available on <${tagName}> or element not found.`,
-              );
+            const elements = document.querySelectorAll(tagName);
+            if (elements.length === 0) {
+              console.warn(`No elements found for <${tagName}>.`);
             }
+
+            elements.forEach((el) => {
+              if (typeof el.requestUpdate === "function") {
+                el.requestUpdate();
+              } else {
+                console.warn(
+                  `requestUpdate() not available on <${tagName}> element.`,
+                );
+              }
+            });
           });
         }
 
@@ -441,16 +439,6 @@
         const translations = await loadLanguage(userLang);
         window.translations = translations;
         applyTranslation(translations);
-
-        const langSelector = document.getElementById("lang-selector");
-        if (langSelector) {
-          langSelector.value = userLang;
-        }
-        document
-          .getElementById("lang-selector")
-          .addEventListener("change", function (event) {
-            changeLanguage(event.target.value);
-          });
       });
     </script>
 

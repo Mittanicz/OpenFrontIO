@@ -1,40 +1,61 @@
 .c-select {
   position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--borderRadius--md);
+  background: #fff;
+  width: 100%;
+  height: 50px;
 }
 
 .c-select__display {
   color: var(--fontColor);
+  width: 100%;
+  display: flex;
+  gap: 10px;
+
+  span {
+    flex: 1;
+  }
 }
 
 .c-select__listWrapper {
   position: absolute;
-  max-height: 60dvh;
-  left: -6px;
-  overflow: scroll;
+  left: -1px;
+  right: -1px;
   background: var(--boxBackgroundColor);
   backdrop-filter: blur(var(--blur-md));
-  top: 40px;
+  top: 50px;
   z-index: 1000;
 }
 
 .c-select__list {
   list-style: none;
+  overflow: scroll;
+  max-height: 35dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   padding: 5px;
   margin: 0;
 }
 
 .c-select__item {
-  margin: 0;
+  align-items: center;
   display: flex;
+  min-height: 35px;
   color: var(--fontColorLight);
   gap: 10px;
 
   img {
     max-width: 35px;
+    height: auto;
   }
 }
 
 .c-select__input {
   outline: none;
   padding: 4px 8px;
+  margin-bottom: 5px;
 }

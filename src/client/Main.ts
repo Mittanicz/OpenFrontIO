@@ -7,6 +7,7 @@ import "./components/baseComponents/Select";
 import "./components/baseComponents/Modal";
 import "./UsernameInput";
 import "./styles.css";
+import { SettingsModal } from "./components/SettingsModal";
 import { UsernameInput } from "./UsernameInput";
 import { SinglePlayerModal } from "./SinglePlayerModal";
 import { HostLobbyModal as HostPrivateLobbyModal } from "./HostLobbyModal";
@@ -15,8 +16,6 @@ import { GameStartingModal } from "./gameStartingModal";
 import { generateID } from "../core/Util";
 import { generateCryptoRandomUUID } from "./Utils";
 import { consolex } from "../core/Consolex";
-import "./FlagInput";
-import { FlagInput } from "./FlagInput";
 import page from "page";
 import { PublicLobby } from "./PublicLobby";
 import { UserSettings } from "../core/game/UserSettings";
@@ -42,7 +41,6 @@ class Client {
   private gameStop: () => void;
 
   private usernameInput: UsernameInput | null = null;
-  private flagInput: FlagInput | null = null;
   private darkModeButton: DarkModeButton | null = null;
 
   private joinModal: JoinPrivateLobbyModal;
@@ -53,11 +51,6 @@ class Client {
   constructor() {}
 
   initialize(): void {
-    this.flagInput = document.querySelector("flag-input") as FlagInput;
-    if (!this.flagInput) {
-      consolex.warn("Flag input element not found");
-    }
-
     this.darkModeButton = document.querySelector(
       "dark-mode-button",
     ) as DarkModeButton;
@@ -102,6 +95,14 @@ class Client {
     hlpModal instanceof HelpModal;
     document.getElementById("help-button").addEventListener("click", () => {
       hlpModal.open();
+    });
+
+    const settingsModal = document.querySelector(
+      "settings-modal",
+    ) as SettingsModal;
+    settingsModal instanceof SettingsModal;
+    document.getElementById("settings-button").addEventListener("click", () => {
+      settingsModal.open();
     });
 
     const hostModal = document.querySelector(
@@ -162,9 +163,9 @@ class Client {
       {
         serverConfig: config,
         flag: (): string =>
-          this.flagInput.getCurrentFlag() == "xx"
+          localStorage.getItem("flag") == "xx"
             ? ""
-            : this.flagInput.getCurrentFlag(),
+            : localStorage.getItem("flag"),
         playerName: (): string => this.usernameInput.getCurrentUsername(),
         gameID: lobby.gameID,
         persistentID: getPersistentIDFromCookie(),

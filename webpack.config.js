@@ -56,13 +56,6 @@ export default async (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.bin$/,
-          type: "asset/resource", // Changed from raw-loader
-          generator: {
-            filename: "binary/[name].[contenthash][ext]", // Added content hash
-          },
-        },
-        {
           test: /\.txt$/,
           type: "asset/resource", // Changed from raw-loader
           generator: {

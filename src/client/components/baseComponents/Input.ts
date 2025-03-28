@@ -47,7 +47,7 @@ export class OInput extends LitElement {
 
   private handleBlur() {
     this.dispatchEvent(
-      new CustomEvent("blur", {
+      new CustomEvent("o-blur", {
         detail: this.value,
       }),
     );
@@ -57,7 +57,7 @@ export class OInput extends LitElement {
     const input = e.target as HTMLInputElement;
     this.value = input.value;
     this.dispatchEvent(
-      new CustomEvent("change", {
+      new CustomEvent("o-change", {
         detail: this.value,
       }),
     );
@@ -67,7 +67,7 @@ export class OInput extends LitElement {
     const input = e.target as HTMLInputElement;
     this.value = input.value;
     this.dispatchEvent(
-      new CustomEvent("input", {
+      new CustomEvent("o-input", {
         detail: this.value,
       }),
     );

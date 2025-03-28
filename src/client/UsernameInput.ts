@@ -9,17 +9,15 @@ import { UserSettings } from "../core/game/UserSettings";
 import { translateText } from "../client/Utils";
 import Countries from "./data/countries.json";
 
-const usernameKey: string = "username";
-const flagKey: string = "flag";
+const usernameKey = "username";
+const flagKey = "flag";
 
 @customElement("username-input")
 export class UsernameInput extends LitElement {
   @state() private username: string = "";
-  @state() private flag: string = "";
-  @state() private search: string = "";
-  @state() private showModal: boolean = false;
-
+  @state() private flag: string = "xx"; // empty flag as default
   @property({ type: String }) validationError: string = "";
+
   private _isValid: boolean = true;
   private userSettings: UserSettings = new UserSettings();
 
@@ -46,40 +44,23 @@ export class UsernameInput extends LitElement {
         placeholder="${translateText("username.enter_username")}"
         maxlength="${MAX_USERNAME_LENGTH}"
         errorMessage="${this.validationError}"
-        @input="${this.handleChange}"
+        @o-change="${this.handleChange}"
+        @o-input="${this.handleChange}"
         type="text"
       >
         <span slot="pre">
           <o-select
             .items=${this.getCountryItems()}
-            @value-selected="${this.handleFlagSelected}"
+            .selectedValue=${this.flag || "xx"}
+            filterEnabled
+            @o-select-change="${this.handleFlagSelected}"
           ></o-select>
         </span>
       </o-input>
     `;
   }
 
-  private getCountryItems() {
-    return Countries.map((country) => ({
-      label: country.name,
-      value: country.code,
-      image: `/flags/${country.code}.svg`,
-    }));
-  }
-  private handleFlagSelected(e: CustomEvent) {
-    const code = e.detail;
-    this.flag = code === "xx" ? "" : code;
-    this.storeFlag(this.flag);
-    this.dispatchEvent(
-      new CustomEvent("flag-change", {
-        detail: { flag: this.flag },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
-  private handleChange(e: Event) {
+  private handleChange(e: CustomEvent) {
     const input = e.target as HTMLInputElement;
     this.username = input.value.trim();
     const result = validateUsername(this.username);
@@ -92,15 +73,33 @@ export class UsernameInput extends LitElement {
     }
   }
 
+  private handleFlagSelected(e: CustomEvent) {
+    this.flag = e.detail;
+    this.storeFlag(this.flag === "xx" ? "" : this.flag);
+    this.dispatchEvent(
+      new CustomEvent("flag-change", {
+        detail: { flag: this.flag },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private getCountryItems() {
+    return Countries.map((country) => ({
+      label: country.name,
+      value: country.code,
+      image:
+        country.code !== "xx" ? `/flags/${country.code}.svg` : "/flags/xx.svg",
+    }));
+  }
+
   private getStoredUsername(): string {
-    const storedUsername = localStorage.getItem(usernameKey);
-    return storedUsername || this.generateNewUsername();
+    return localStorage.getItem(usernameKey) || this.generateNewUsername();
   }
 
   private storeUsername(username: string) {
-    if (username) {
-      localStorage.setItem(usernameKey, username);
-    }
+    localStorage.setItem(usernameKey, username);
   }
 
   private dispatchUsernameEvent() {
@@ -120,9 +119,8 @@ export class UsernameInput extends LitElement {
   }
 
   private uuidToThreeDigits(): string {
-    const uuid = uuidv4();
-    const cleanUuid = uuid.replace(/-/g, "").toLowerCase();
-    const decimal = BigInt(`0x${cleanUuid}`);
+    const uuid = uuidv4().replace(/-/g, "").toLowerCase();
+    const decimal = BigInt(`0x${uuid}`);
     const threeDigits = decimal % 1000n;
     return threeDigits.toString().padStart(3, "0");
   }
@@ -133,19 +131,6 @@ export class UsernameInput extends LitElement {
 
   private getStoredFlag(): string {
     return localStorage.getItem(flagKey) || "";
-  }
-
-  private setFlag(code: string) {
-    this.flag = code === "xx" ? "" : code;
-    this.showModal = false;
-    this.storeFlag(this.flag);
-    this.dispatchEvent(
-      new CustomEvent("flag-change", {
-        detail: { flag: this.flag },
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 
   private storeFlag(code: string) {

@@ -5,11 +5,12 @@
 .c-formElement__wrapper {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 o-input {
   display: grid;
-  grid-template-columns: 50px 1fr 50px;
+  grid-template-columns: 40px 1fr 40px;
   border: 1px solid transparent;
   align-items: center;
   position: relative;
@@ -33,6 +34,7 @@ o-input {
   & span[slot="pre"] {
     order: 1;
   }
+
   & span[slot="post"] {
     order: 3;
   }
@@ -40,6 +42,7 @@ o-input {
   & .c-formElement {
     order: 2;
   }
+
   &[errormessage]:not([errormessage=""]) {
     &:before {
       border: 1px solid var(--errorColor);
@@ -50,5 +53,11 @@ o-input {
       grid-column: 1 / 4;
       order: 4;
     }
+  }
+
+  & .c-select__listWrapper {
+    right: auto;
+    left: -10px;
+    height: auto;
   }
 }
