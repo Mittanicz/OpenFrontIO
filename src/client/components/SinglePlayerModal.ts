@@ -1,17 +1,17 @@
 import { LitElement, html } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
-import { Difficulty, GameMapType, GameType } from "../core/game/Game";
-import { generateID as generateID } from "../core/Util";
-import { consolex } from "../core/Consolex";
-import "./components/Difficulties";
-import "./components/baseComponents/Modal";
-import "./components/baseComponents/Button";
-import { DifficultyDescription } from "./components/Difficulties";
-import "./components/Maps";
-import randomMap from "../../resources/images/RandomMap.webp";
-import { GameInfo } from "../core/Schemas";
-import { JoinLobbyEvent } from "./Main";
-import { translateText } from "../client/Utils";
+import { Difficulty, GameMapType, GameType } from "../../core/game/Game";
+import { generateID as generateID } from "../../core/Util";
+import { consolex } from "../../core/Consolex";
+import "./Difficulties";
+import "./baseComponents/Modal";
+import "./baseComponents/Button";
+import { DifficultyDescription } from "./Difficulties";
+import "./Maps";
+import randomMap from "../../../resources/images/RandomMap.webp";
+import { GameInfo } from "../../core/Schemas";
+import { JoinLobbyEvent } from "../Main";
+import { translateText } from "../Utils";
 
 @customElement("single-player-modal")
 export class SinglePlayerModal extends LitElement {

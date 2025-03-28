@@ -29,6 +29,10 @@ export class OModal extends LitElement {
       border-radius: 8px;
       min-width: 340px;
       max-width: 860px;
+
+      @media (min-width: 1024px) {
+        min-width: 440px;
+      }
     }
 
     .c-modal__header {

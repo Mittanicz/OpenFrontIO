@@ -9,10 +9,35 @@ interface selectItems {
 
 @customElement("o-select")
 export class OSelect extends LitElement {
+  /**
+   * Array of selectable items.
+   */
   @property({ type: Array }) items: selectItems[] = [];
+
+  /**
+   * Currently selected value.
+   */
   @property({ type: String }) selectedValue: string = "";
+
+  /**
+   * Error message to display.
+   */
+  @property({ type: String }) errorMessage: string = "";
+
+  /**
+   * Enables search filtering in the dropdown.
+   */
   @property({ type: Boolean }) filterEnabled: boolean = false;
+
+  /**
+   * If true, show image next to label.
+   */
   @property({ type: Boolean }) showImageWithLabel: boolean = false;
+
+  /**
+   * Label shown above the select.
+   */
+  @property({ type: String }) label: string = "";
 
   @state() private selectedItem: selectItems | null = null;
   @state() private filter: string = "";
@@ -57,6 +82,7 @@ export class OSelect extends LitElement {
       }),
     );
   }
+
   private renderSelectedDisplay() {
     if (!this.selectedItem) {
       return html`<span>Select</span>`;
@@ -66,23 +92,13 @@ export class OSelect extends LitElement {
 
     if (this.showImageWithLabel) {
       return html`
-        ${image
-          ? html`<img
-              src="${image}"
-              alt="${label} flag"
-              class="w-[32px] h-[32px] object-contain"
-            />`
-          : null}
+        ${image ? html`<img src="${image}" alt="${label} flag" />` : null}
         <span>${label}</span>
       `;
     }
 
     return image
-      ? html`<img
-          src="${image}"
-          alt="${label} flag"
-          class="w-[32px] h-[32px] object-contain"
-        />`
+      ? html`<img src="${image}" alt="${label} flag" />`
       : html`<span>${label}</span>`;
   }
 
@@ -98,7 +114,13 @@ export class OSelect extends LitElement {
 
   render() {
     return html`
-      <div class="c-select" @click=${() => (this.isOpen = !this.isOpen)}>
+      <div
+        class="c-select ${this.errorMessage ? "is-error" : ""}"
+        @click=${() => (this.isOpen = !this.isOpen)}
+      >
+        ${this.label
+          ? html`<label class="c-label">${this.label}</label>`
+          : null}
         <div class="c-select__display">${this.renderSelectedDisplay()}</div>
 
         ${this.isOpen
@@ -146,6 +168,9 @@ export class OSelect extends LitElement {
             `
           : ""}
       </div>
+      ${this.errorMessage
+        ? html` <div class="c-message">${this.errorMessage}</div>`
+        : ""}
     `;
   }
 }

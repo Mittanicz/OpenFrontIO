@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import {
   MAX_USERNAME_LENGTH,
   validateUsername,
-} from "../core/validations/username";
-import { UserSettings } from "../core/game/UserSettings";
-import { translateText } from "../client/Utils";
-import Countries from "./data/countries.json";
+} from "../../core/validations/username";
+import { UserSettings } from "../../core/game/UserSettings";
+import { translateText } from "../Utils";
+import Countries from "../data/countries.json";
 
 const usernameKey = "username";
 const flagKey = "flag";

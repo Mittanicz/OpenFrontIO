@@ -30,7 +30,7 @@ export class SettingsModal extends LitElement {
     super.connectedCallback();
     window.addEventListener("keydown", this.onKeyDown);
     window.addEventListener("keyup", this.onKeyUp);
-    this.prepareLanguages(); // 👈 initialize
+    this.prepareLanguages();
   }
 
   disconnectedCallback(): void {
@@ -82,7 +82,7 @@ export class SettingsModal extends LitElement {
 
   private async changeLanguage(langCode: string) {
     localStorage.setItem("lang", langCode);
-    location.reload(); // or emit an event instead
+    location.reload();
   }
   private handleToggle(e: Event) {
     const checked = (e.target as HTMLInputElement).checked;
@@ -92,48 +92,12 @@ export class SettingsModal extends LitElement {
     }
   }
 
-  toggleDarkMode() {
+  public toggleDarkMode() {
     this.userSettings.toggleDarkMode();
     this.darkMode = this.userSettings.darkMode();
   }
 
-  render() {
-    return html`
-      <o-modal title=${translateText("Settings")} id="settings-modal">
-        <div class="options-section">
-          <div class="option-title">Dark mode</div>
-          <label
-            for="dark-mode"
-            class="option-card ${this.darkMode ? "selected" : ""}"
-          >
-            <div class="checkbox-icon"></div>
-            <input
-              type="checkbox"
-              id="dark-mode"
-              @change=${this.handleToggle}
-              .checked=${this.darkMode}
-            />
-            <div class="option-card-title">
-              ${translateText("settings.dark_mode")}
-            </div>
-          </label>
-        </div>
-        <div class="options-section">
-          <div class="option-title">Language</div>
-          <o-select
-            .items=${this.languages}
-            showImageWithLabel
-            .selectedValue=${this.currentLang}
-            @o-select-change=${(e: CustomEvent) => {
-              this.changeLanguage(e.detail);
-            }}
-          ></o-select>
-        </div>
-      </o-modal>
-    `;
-  }
-
-  createRenderRoot() {
+  public createRenderRoot() {
     return this;
   }
 
@@ -144,5 +108,42 @@ export class SettingsModal extends LitElement {
 
   public close() {
     this.modalEl?.close();
+  }
+
+  render() {
+    return html`
+      <o-modal title=${translateText("Settings")} id="settings-modal">
+        <div class="options-section">
+          <div class="option-title">Language</div>
+          <o-select
+            label="Language"
+            .items=${this.languages}
+            .selectedValue=${this.currentLang}
+            showImageWithLabel
+            @o-select-change=${(e: CustomEvent) => {
+              this.changeLanguage(e.detail);
+            }}
+          ></o-select>
+        </div>
+        <div class="options-section">
+          <div class="option-title">Dark mode</div>
+          <label
+            for="dark-mode"
+            class="option-card ${this.darkMode ? "selected" : ""}"
+          >
+            <div class="checkbox-icon"></div>
+            <input
+              type="checkbox"
+              id="dark-mode"
+              .checked=${this.darkMode}
+              @change=${this.handleToggle}
+            />
+            <div class="option-card-title">
+              ${translateText("settings.dark_mode")}
+            </div>
+          </label>
+        </div>
+      </o-modal>
+    `;
   }
 }

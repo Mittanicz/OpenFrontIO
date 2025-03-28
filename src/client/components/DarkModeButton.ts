@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { UserSettings } from "../core/game/UserSettings";
+import { UserSettings } from "../../core/game/UserSettings";
 
 @customElement("dark-mode-button")
 export class DarkModeButton extends LitElement {
