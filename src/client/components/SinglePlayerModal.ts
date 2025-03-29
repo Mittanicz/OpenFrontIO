@@ -5,6 +5,7 @@ import { generateID as generateID } from "../../core/Util";
 import { consolex } from "../../core/Consolex";
 import "./Difficulties";
 import "./baseComponents/Modal";
+import "./baseComponents/ToggleSwitch";
 import "./baseComponents/Button";
 import { DifficultyDescription } from "./Difficulties";
 import "./Maps";
@@ -32,188 +33,84 @@ export class SinglePlayerModal extends LitElement {
   render() {
     return html`
       <o-modal title=${translateText("single_modal.title")}>
-        <div class="options-layout">
-          <!-- Map Selection -->
-          <div class="options-section">
-            <div class="option-title">${translateText("single_modal.map")}</div>
-            <div class="option-cards">
-              ${Object.entries(GameMapType)
-                .filter(([key]) => isNaN(Number(key)))
-                .map(
-                  ([key, value]) => html`
-                    <div
-                      @click=${function () {
-                        this.handleMapSelection(value);
-                      }}
-                    >
-                      <map-display
-                        .mapKey=${key}
-                        .selected=${!this.useRandomMap &&
-                        this.selectedMap === value}
-                        .translation=${translateText(
-                          `map.${key.toLowerCase()}`,
-                        )}
-                      ></map-display>
-                    </div>
-                  `,
-                )}
-              <div
-                class="option-card random-map ${this.useRandomMap
-                  ? "selected"
-                  : ""}"
-                @click=${this.handleRandomMapToggle}
-              >
-                <div class="option-image">
-                  <img
-                    src=${randomMap}
-                    alt="Random Map"
-                    style="width:100%; aspect-ratio: 4/2; object-fit:cover; border-radius:8px;"
-                  />
+        <o-section title="${translateText("single_modal.map")}">
+          ${Object.entries(GameMapType)
+            .filter(([key]) => isNaN(Number(key)))
+            .map(
+              ([key, value]) => html`
+                <div
+                  @click=${function () {
+                    this.handleMapSelection(value);
+                  }}
+                >
+                  <map-display
+                    .mapKey=${key}
+                    .selected=${!this.useRandomMap &&
+                    this.selectedMap === value}
+                    .translation=${translateText(`map.${key.toLowerCase()}`)}
+                  ></map-display>
                 </div>
-                <div class="option-card-title">
-                  ${translateText("map.random")}
-                </div>
-              </div>
+              `,
+            )}
+          <div
+            class="c-tile ${this.useRandomMap ? "c-tile--selected" : ""}"
+            @click=${this.handleRandomMapToggle}
+          >
+            <div class="c-tile__image">
+              <img src=${randomMap} alt="Random Map" />
+            </div>
+            <div class="c-tile__content">
+              <div class="c-tile__title">${translateText("map.random")}</div>
             </div>
           </div>
+        </o-section>
+        <o-section title="${translateText("single_modal.difficulty")}">
+          <difficulty-display
+            .value=${this.selectedDifficulty}
+            @difficulty-selected=${(e) => {
+              this.selectedDifficulty = e.detail.difficulty;
+            }}
+          ></difficulty-display>
+        </o-section>
+        <o-section
+          title="${translateText("single_modal.options_title")}"
+          class="h-mb-md"
+        >
+          <range-slider
+            label="${translateText("single_modal.bots")}"
+            min="0"
+            max="100"
+            @input=${this.handleBotsChange}
+            @change=${this.handleBotsChange}
+            .value="${this.bots}"
+          ></range-slider>
 
-          <!-- Difficulty Selection -->
-          <div class="options-section">
-            <div class="option-title">
-              ${translateText("single_modal.difficulty")}
-            </div>
-            <div class="option-cards">
-              ${Object.entries(Difficulty)
-                .filter(([key]) => isNaN(Number(key)))
-                .map(
-                  ([key, value]) => html`
-                    <div
-                      class="option-card ${this.selectedDifficulty === value
-                        ? "selected"
-                        : ""}"
-                      @click=${() => this.handleDifficultySelection(value)}
-                    >
-                      <difficulty-display
-                        .difficultyKey=${key}
-                      ></difficulty-display>
-                      <p class="option-card-title">
-                        ${translateText(
-                          `difficulty.${DifficultyDescription[key]}`,
-                        )}
-                      </p>
-                    </div>
-                  `,
-                )}
-            </div>
-          </div>
-
-          <!-- Game Options -->
-          <div class="options-section">
-            <div class="option-title">
-              ${translateText("single_modal.options_title")}
-            </div>
-            <div class="option-cards">
-              <label for="bots-count" class="option-card">
-                <input
-                  type="range"
-                  id="bots-count"
-                  min="0"
-                  max="400"
-                  step="1"
-                  @input=${this.handleBotsChange}
-                  @change=${this.handleBotsChange}
-                  .value="${this.bots}"
-                />
-                <div class="option-card-title">
-                  <span>${translateText("single_modal.bots")}</span>${this
-                    .bots == 0
-                    ? translateText("single_modal.bots_disabled")
-                    : this.bots}
-                </div>
-              </label>
-
-              <label
-                for="disable-npcs"
-                class="option-card ${this.disableNPCs ? "selected" : ""}"
-              >
-                <div class="checkbox-icon"></div>
-                <input
-                  type="checkbox"
-                  id="disable-npcs"
-                  @change=${this.handleDisableNPCsChange}
-                  .checked=${this.disableNPCs}
-                />
-                <div class="option-card-title">
-                  ${translateText("single_modal.disable_nations")}
-                </div>
-              </label>
-              <label
-                for="instant-build"
-                class="option-card ${this.instantBuild ? "selected" : ""}"
-              >
-                <div class="checkbox-icon"></div>
-                <input
-                  type="checkbox"
-                  id="instant-build"
-                  @change=${this.handleInstantBuildChange}
-                  .checked=${this.instantBuild}
-                />
-                <div class="option-card-title">
-                  ${translateText("single_modal.instant_build")}
-                </div>
-              </label>
-
-              <label
-                for="infinite-gold"
-                class="option-card ${this.infiniteGold ? "selected" : ""}"
-              >
-                <div class="checkbox-icon"></div>
-                <input
-                  type="checkbox"
-                  id="infinite-gold"
-                  @change=${this.handleInfiniteGoldChange}
-                  .checked=${this.infiniteGold}
-                />
-                <div class="option-card-title">
-                  ${translateText("single_modal.infinite_gold")}
-                </div>
-              </label>
-
-              <label
-                for="infinite-troops"
-                class="option-card ${this.infiniteTroops ? "selected" : ""}"
-              >
-                <div class="checkbox-icon"></div>
-                <input
-                  type="checkbox"
-                  id="infinite-troops"
-                  @change=${this.handleInfiniteTroopsChange}
-                  .checked=${this.infiniteTroops}
-                />
-                <div class="option-card-title">
-                  ${translateText("single_modal.infinite_troops")}
-                </div>
-              </label>
-
-              <label
-                for="disable-nukes"
-                class="option-card ${this.disableNukes ? "selected" : ""}"
-              >
-                <div class="checkbox-icon"></div>
-                <input
-                  type="checkbox"
-                  id="disable-nukes"
-                  @change=${this.handleDisableNukesChange}
-                  .checked=${this.disableNukes}
-                />
-                <div class="option-card-title">
-                  ${translateText("single_modal.disable_nukes")}
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-
+          <toggle-switch
+            .checked=${this.disableNPCs}
+            title="${translateText("single_modal.disable_nations")}"
+            @change=${(e: CustomEvent) => (this.disableNPCs = e.detail)}
+          ></toggle-switch>
+          <toggle-switch
+            .checked=${this.instantBuild}
+            title="${translateText("single_modal.instant_build")}"
+            @change=${(e: CustomEvent) => (this.instantBuild = e.detail)}
+          ></toggle-switch>
+          <toggle-switch
+            .checked=${this.infiniteGold}
+            title="${translateText("single_modal.infinite_gold")}"
+            @change=${(e: CustomEvent) => (this.instantBuild = e.detail)}
+          ></toggle-switch>
+          <toggle-switch
+            .checked=${this.infiniteTroops}
+            title="${translateText("single_modal.infinite_troops")}"
+            @change=${(e: CustomEvent) => (this.infiniteTroops = e.detail)}
+          ></toggle-switch>
+          <toggle-switch
+            .checked=${this.disableNukes}
+            title="${translateText("single_modal.disable_nukes")}"
+            @change=${(e: CustomEvent) => (this.disableNukes = e.detail)}
+          ></toggle-switch>
+        </o-section>
         <o-button
           title=${translateText("single_modal.start")}
           @click=${this.startGame}

@@ -5,15 +5,20 @@
 @import url("./styles/core/typography.css");
 
 @import url("./styles/layout/header.css");
+@import url("./styles/layout/main.css");
 @import url("./styles/layout/footer.css");
 @import url("./styles/layout/container.css");
+@import url("./styles/layout/box.css");
 
+@import url("./styles/components/section.css");
 @import url("./styles/components/button.css");
 @import url("./styles/components/formElement.css");
 @import url("./styles/components/label.css");
 @import url("./styles/components/input.css");
 @import url("./styles/components/select.css");
 @import url("./styles/components/modal.css");
+@import url("./styles/components/tile.css");
+@import url("./styles/components/rangeSelector.css");
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

@@ -11,3 +11,7 @@
 .t-text-white {
   color: #ffffffb3;
 }
+
+.h-mb-md {
+  margin-bottom: var(--space-md);
+}

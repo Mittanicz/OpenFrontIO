@@ -5,6 +5,8 @@ import "./components/baseComponents/Button";
 import "./components/baseComponents/Input";
 import "./components/baseComponents/Select";
 import "./components/baseComponents/Modal";
+import "./components/baseComponents/Section";
+import "./components/baseComponents/RangeSlider";
 import "./components/UsernameInput";
 import "./styles.css";
 import { SettingsModal } from "./components/SettingsModal";

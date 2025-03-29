@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { Difficulty, GameMapType, GameType } from "../../core/game/Game";
+
+import "./baseComponents/Section";
 import { consolex } from "../../core/Consolex";
 import { getMapsImage } from "../utilities/Maps";
 import { GameID, GameInfo } from "../../core/Schemas";
@@ -89,57 +90,60 @@ export class PublicLobby extends LitElement {
     const minutes = Math.floor(timeRemaining / 60);
     const seconds = timeRemaining % 60;
     const timeDisplay = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
-    const playersRemainingBeforeMax =
-      lobby.gameConfig.maxPlayers - lobby.numClients;
 
     return html`
-      <button
-        @click=${() => this.lobbyClicked(lobby)}
-        ?disabled=${this.isButtonDebounced}
-        class="w-full mx-auto p-4 md:p-6 ${this.isLobbyHighlighted
-          ? "bg-gradient-to-r from-green-600 to-green-500"
-          : "bg-gradient-to-r from-blue-600 to-blue-500"} text-white font-medium rounded-xl transition-opacity duration-200 hover:opacity-90 ${this
-          .isButtonDebounced
-          ? "opacity-70 cursor-not-allowed"
-          : ""}"
-      >
-        <div class="text-lg md:text-2xl font-semibold mb-2">
-          ${translateText("public_lobby.join")}
-        </div>
-        <div class="flex">
-          <img
-            src="${getMapsImage(lobby.gameConfig.gameMap)}"
-            alt="${lobby.gameConfig.gameMap}"
-            class="w-1/3 md:w-1/5 md:h-[80px]"
-            style="border: 1px solid rgba(255, 255, 255, 0.5)"
-          />
-          <div
-            class="w-full flex flex-col md:flex-row items-center justify-center gap-4"
-          >
-            <div class="flex flex-col items-start">
-              <div class="text-md font-medium text-blue-100">
-                <!-- ${lobby.gameConfig.gameMap} -->
-                ${translateText(
-                  `map.${lobby.gameConfig.gameMap.toLowerCase().replace(/\s+/g, "")}`,
-                )}
-              </div>
+      <o-section title="${translateText("public_lobby.join")}">
+        <div
+          class="c-tile ${this.isLobbyHighlighted
+            ? "c-tile--selected"
+            : ""}  ${this.isButtonDebounced ? "c-tile--disabled" : ""}"
+          @click=${() => this.lobbyClicked(lobby)}
+        >
+          <div class="c-tile__image">
+            <img
+              src="${getMapsImage(lobby.gameConfig.gameMap)}"
+              alt="${lobby.gameConfig.gameMap}"
+            />
+          </div>
+          <div class="c-tile__content">
+            <div class="c-tile__title">
+              ${translateText(
+                `map.${lobby.gameConfig.gameMap.toLowerCase().replace(/\s+/g, "")}`,
+              )}
             </div>
-            <div class="flex flex-col items-start">
-              <div class="text-md font-medium text-blue-100">
-                ${lobby.numClients} / ${lobby.gameConfig.maxPlayers}
-                ${translateText("public_lobby.waiting")}
-              </div>
-            </div>
-            <div class="flex items-center">
-              <div
-                class="min-w-20 text-sm font-medium px-2 py-1 bg-white/10 rounded-xl text-blue-100 text-center"
+            <div class="c-tile__col">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
               >
-                ${timeDisplay}
-              </div>
+                <!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                <path
+                  fill="currentColor"
+                  d="M12 12q-1.65 0-2.825-1.175T8 8t1.175-2.825T12 4t2.825 1.175T16 8t-1.175 2.825T12 12m-8 8v-2.8q0-.85.438-1.562T5.6 14.55q1.55-.775 3.15-1.162T12 13t3.25.388t3.15 1.162q.725.375 1.163 1.088T20 17.2V20z"
+                />
+              </svg>
+              ${lobby.numClients} / ${lobby.gameConfig.maxPlayers}
+            </div>
+            <div class="c-tile__col">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+              >
+                <!-- Icon from Google Material Icons by Material Design Authors - https://github.com/material-icons/material-icons/blob/master/LICENSE -->
+                <path
+                  fill="currentColor"
+                  d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m3.3 14.71L11 12.41V7h2v4.59l3.71 3.71z"
+                />
+              </svg>
+              ${timeDisplay}
             </div>
           </div>
         </div>
-      </button>
+      </o-section>
     `;
   }
 

@@ -1,0 +1,11 @@
+.c-rangeSelector {
+  display: flex;
+}
+
+.c-rangeSelector--active {
+  color: var(--errorColor);
+}
+
+.c-rangeSelector__icon {
+  width: 24px;
+}

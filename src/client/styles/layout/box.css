@@ -1,0 +1,8 @@
+.l-box {
+  background: var(--boxBackgroundColor);
+  border: 1px solid var(--borderColor);
+  box-shadow: var(--boxShadow);
+  padding: 16px;
+  position: relative;
+  border-inline: 1px solid rgba(255, 255, 255, 0.1);
+}

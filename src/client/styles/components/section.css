@@ -1,0 +1,93 @@
+o-section {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  padding: var(--space-xs);
+
+  + o-section {
+    margin-top: var(--space-md);
+  }
+}
+
+.c-section__title {
+  text-align: center;
+  position: relative;
+  font-size: 18px;
+  margin-bottom: var(--space-xs);
+}
+
+.c-section__borderTopLeft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--secondaryBorderColor);
+
+  &:before {
+    content: "";
+    top: 0;
+    position: absolute;
+    left: 1px;
+    width: 8px;
+    height: 1px;
+    background: var(--secondaryBorderColor);
+  }
+}
+
+.c-section__borderTopRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--secondaryBorderColor);
+
+  &:before {
+    content: "";
+    top: 0;
+    position: absolute;
+    right: 1px;
+    width: 8px;
+    height: 1px;
+    background: var(--secondaryBorderColor);
+  }
+}
+
+.c-section__borderBottomLeft {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--secondaryBorderColor);
+
+  &:before {
+    content: "";
+    bottom: 0;
+    position: absolute;
+    left: 1px;
+    width: 8px;
+    height: 1px;
+    background: var(--secondaryBorderColor);
+  }
+}
+
+.c-section__borderBottomRight {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--secondaryBorderColor);
+
+  &:before {
+    content: "";
+    bottom: 0;
+    position: absolute;
+    right: 1px;
+    width: 8px;
+    height: 1px;
+    background: var(--secondaryBorderColor);
+  }
+}

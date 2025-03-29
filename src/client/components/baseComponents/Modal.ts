@@ -37,20 +37,23 @@ export class OModal extends LitElement {
 
     .c-modal__header {
       position: relative;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
       font-size: 18px;
-      background: #000000a1;
+      background: #0000007d;
       text-align: center;
       color: #fff;
-      padding: 1rem 2.4rem 1rem 1.4rem;
+      padding: 10px 34px;
     }
 
     .c-modal__close {
       cursor: pointer;
       position: absolute;
-      right: 1rem;
-      top: 1rem;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      svg {
+        width: 24px;
+      }
     }
 
     .c-modal__content {
@@ -83,7 +86,20 @@ export class OModal extends LitElement {
                   ${`${this.translationKey}` === ""
                     ? `${this.title}`
                     : `${translateText(this.translationKey)}`}
-                  <div class="c-modal__close" @click=${this.close}>X</div>
+                  <div class="c-modal__close" @click=${this.close}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                    >
+                      <!-- Icon from Google Material Icons by Material Design Authors - https://github.com/material-icons/material-icons/blob/master/LICENSE -->
+                      <path
+                        fill="currentColor"
+                        d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"
+                      />
+                    </svg>
+                  </div>
                 </header>
                 <section class="c-modal__content">
                   <slot></slot>

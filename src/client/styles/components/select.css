@@ -33,6 +33,7 @@
 }
 
 .c-select__listWrapper {
+  border: 1px solid var(--secondaryBorderColor);
   position: absolute;
   left: -1px;
   right: -1px;
@@ -57,7 +58,7 @@
   align-items: center;
   display: flex;
   min-height: 35px;
-  color: var(--fontColorLight);
+  color: var(--fontColor);
   gap: 10px;
 
   img {
