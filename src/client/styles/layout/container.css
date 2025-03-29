@@ -13,6 +13,10 @@
   align-items: center;
 }
 
+.container__row--center {
+  justify-content: center;
+}
+
 .container__row--equal > * {
   flex: 1 1 100%;
 }

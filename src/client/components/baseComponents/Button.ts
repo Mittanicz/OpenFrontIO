@@ -40,7 +40,7 @@ export class OButton extends LitElement {
   /**
    * Disables the button both visually and functionally.
    */
-  @property({ type: Boolean }) disable = false;
+  @property({ type: Boolean }) disabled = false;
 
   /**
    * Use light DOM (not shadow DOM).
@@ -57,9 +57,9 @@ export class OButton extends LitElement {
           "c-button--block": this.block,
           "c-button--blockDesktop": this.blockDesktop,
           "c-button--secondary": this.secondary,
-          "c-button--disabled": this.disable,
+          "c-button--disabled": this.disabled,
         })}
-        ?disabled=${this.disable}
+        ?disabled=${this.disabled}
       >
         ${this.translationKey === ""
           ? this.title

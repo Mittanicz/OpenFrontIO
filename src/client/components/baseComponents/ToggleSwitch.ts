@@ -17,16 +17,17 @@ export class OToggleSwitch extends LitElement {
     .c-toggleSwitch__state {
       display: flex;
       border: 1px solid var(--secondaryBorderColor);
-      padding: var(--space-xs);
+      padding: 2px;
+      flex: 0 1 45%;
       overflow: hidden;
       cursor: pointer;
-      gap: var(--space-xl);
     }
 
     .c-toggleSwitch__option {
       flex: 1;
       text-align: center;
       padding: var(--space-xs);
+      font-size: 12px;
       background: transparent;
       transition: var(--transition);
     }

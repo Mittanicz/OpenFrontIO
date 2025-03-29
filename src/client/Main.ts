@@ -7,6 +7,7 @@ import "./components/baseComponents/Select";
 import "./components/baseComponents/Modal";
 import "./components/baseComponents/Section";
 import "./components/baseComponents/RangeSlider";
+import "./components/baseComponents/Chip";
 import "./components/UsernameInput";
 import "./styles.css";
 import { SettingsModal } from "./components/SettingsModal";

@@ -33,7 +33,7 @@ export class SinglePlayerModal extends LitElement {
   render() {
     return html`
       <o-modal title=${translateText("single_modal.title")}>
-        <o-section title="${translateText("single_modal.map")}">
+        <o-section limitHeight title="${translateText("single_modal.map")}">
           ${Object.entries(GameMapType)
             .filter(([key]) => isNaN(Number(key)))
             .map(

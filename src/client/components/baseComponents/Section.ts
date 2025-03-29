@@ -24,6 +24,11 @@ export class OSection extends LitElement {
       padding: var(--space-xs);
     }
 
+    .c-section--limitHeight {
+      max-height: 40dvh;
+      overflow: scroll;
+    }
+
     .c-section__title {
       text-align: center;
       position: relative;
@@ -112,6 +117,7 @@ export class OSection extends LitElement {
    * Section title text (used when `translationKey` is not set).
    */
   @property({ type: String }) title = "";
+  @property({ type: Boolean }) limitHeight = "";
 
   /**
    * i18n translation key used to render the section title via `translateText()`.
@@ -125,7 +131,9 @@ export class OSection extends LitElement {
 
   render() {
     return html`
-      <section class="c-section">
+      <section
+        class="c-section ${this.limitHeight ? "c-section--limitHeight" : ""}"
+      >
         <span class="c-section__borderTopLeft"></span>
         <span class="c-section__borderTopRight"></span>
         <span class="c-section__borderBottomLeft"></span>
